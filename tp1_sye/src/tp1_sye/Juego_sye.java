@@ -11,23 +11,15 @@ public Juego_sye(int tamañoTablero){
 	ganar = false;
 	dado = new Dado();
 	tabla = new Tablero(tamañoTablero);
-	
 	p1 = new Jugador();
 	p2 = new Jugador();
-	
 }
 
 public SyE[] generador(int n,int j){
 	SyE[] lista = new SyE[n];
 	for (int i = 0; i < n; i++) {
-		int ran = (int)(Math.random()*tabla.tamaño());
-		if (ran>j) {
-			SyE aux = new SyE(j,ran);
+			SyE aux = new SyE(2,3);
 			lista[i]=aux;
-		}else{
-		SyE aux = new SyE(j,j+5);
-		lista[i]=aux;
-		}
 	}
 	return lista;
 }
