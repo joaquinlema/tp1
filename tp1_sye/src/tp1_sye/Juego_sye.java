@@ -5,14 +5,16 @@ private Jugador p1,p2;
 private Tablero tabla;
 private SyE serpiente,escalera;
 private boolean ganar;
+private Dado dado;
 
 public Juego_sye(int tamañoTablero){
 	ganar = false;
-	
+	dado = new Dado();
 	tabla = new Tablero(tamañoTablero);
 	
 	serpiente = new SyE(12,2);
 	escalera = new SyE(1,10);
+	
 	tabla.cargarTablero(serpiente,escalera);
 	
 	tabla.imprimir();
@@ -28,11 +30,6 @@ public void mostrarPosJugador(int p1pos,int p2pos){
 	System.out.println("Jugador 2 se encuentra en la posicion: "+p2pos);
 }
 
-public int tirarDados(){
-	int dados =(int)(1 + (Math.random()) *5);
-	System.out.println("obtuvo: "+dados);
-	return dados;
-}
 
 public String ganador(Jugador p){
 	String ganador = p.getNombre();
@@ -66,9 +63,9 @@ public boolean esSerpiente(Jugador j){
 
 public int verificarSyE(Jugador j1){
 	if (esEscalera(j1)) {
-		return 1;
-	}else if (esSerpiente(j1)) {
 		return 2;
+	}else if (esSerpiente(j1)) {
+		return 1;
 	}
 	return 0;
 }
@@ -95,10 +92,10 @@ public void jugar(){
 		
 		System.out.println("------------------------------------------------");	
 		System.out.println("jugador 1: "+p1.getNombre()+" tira dados:");
-		p1.setPosicion(actualizarPos(p1,tirarDados()));
+		p1.setPosicion(actualizarPos(p1,dado.getCara()));
 		
 		System.out.println("jugador 2: "+p2.getNombre()+" tira dados:");
-		p2.setPosicion(actualizarPos(p2,tirarDados()));
+		p2.setPosicion(actualizarPos(p2,dado.getCara()));
 		System.out.println("------------------------------------------------");
 		
 		dondeCayo(p1);
