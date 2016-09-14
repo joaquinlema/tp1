@@ -17,16 +17,6 @@ public int damePos(int pos){
 	return -1;
 }
 
-public void cargarTablero(SyE serpiente,SyE escalera){
-	for (int i = 0; i < t.length; i++) {
-		if(i == serpiente.getInicio()){
-			t[i]=1;
-		}else if(i == escalera.getInicio()){
-			t[i]=2;
-		}
-	}
-}
-
 public int tamaño(){
 	int tamaño = t.length;
 	return tamaño;
@@ -36,6 +26,14 @@ public void imprimir(){
 	for (int i = 0; i < t.length; i++) {
 		System.out.print(" "+t[i]);
 	}
-	System.out.print(" ");
+	System.out.println(" ");
+}
+
+public void cargarSerpiente(SyE serpiente){
+	t[serpiente.getInicio()]=1;
+}
+
+public void cargarEscalera(SyE escalera){
+	t[escalera.getInicio()]=2;
 }
 }

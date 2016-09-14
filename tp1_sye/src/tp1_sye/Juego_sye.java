@@ -12,16 +12,38 @@ public Juego_sye(int tamañoTablero){
 	dado = new Dado();
 	tabla = new Tablero(tamañoTablero);
 	
-	serpiente = new SyE(12,2);
-	escalera = new SyE(1,10);
-	
-	tabla.cargarTablero(serpiente,escalera);
-	
-	tabla.imprimir();
-	
 	p1 = new Jugador();
 	p2 = new Jugador();
 	
+}
+
+public SyE[] generador(int n,int j){
+	SyE[] lista = new SyE[n];
+	for (int i = 0; i < n; i++) {
+		int ran = (int)(Math.random()*tabla.tamaño());
+		if (ran>j) {
+			SyE aux = new SyE(j,ran);
+			lista[i]=aux;
+		}else{
+		SyE aux = new SyE(j,j+5);
+		lista[i]=aux;
+		}
+	}
+	return lista;
+}
+
+public void agregarSerpiente(int inicio,int destino){
+	serpiente = new SyE(inicio,destino);
+	tabla.cargarSerpiente(serpiente);
+}
+
+public void agregarEscalera(int inicio,int destino){
+		escalera = new SyE(inicio,destino);
+		tabla.cargarEscalera(escalera);
+	}
+
+public void ver(){
+	tabla.imprimir();
 }
 
 public void mostrarPosJugador(int p1pos,int p2pos){
@@ -70,18 +92,28 @@ public int verificarSyE(Jugador j1){
 	return 0;
 }
 
-public int actualizarPos(Jugador p,int destino){
-	int posicionNueva = p.getPosicion() + destino;
-	return posicionNueva;
-}
+	public int actualizarPos(Jugador p,int destino,int valor){
+		int posicionNueva;
+		if(valor == 2){//si es escalera
+			posicionNueva = destino;
+			return posicionNueva;
+		}else if(valor == 1){//si es serpiente
+			posicionNueva = destino;
+			return posicionNueva;
+		}else{//si no es nada
+			posicionNueva = p.getPosicion() + destino;
+		return posicionNueva;
+		}
+	}
+
 
 public void dondeCayo(Jugador j){
-	if (verificarSyE(j) == 1) {
+	if (verificarSyE(j) == 2) {
 		System.out.println("el jugador: "+j.getNombre()+ " ha caido en una escalera");
-		j.setPosicion(actualizarPos(j, escalera.getDestino()));
-	}else if(verificarSyE(j) == 2){
+		j.setPosicion(actualizarPos(j, escalera.getDestino(),2));
+	}else if(verificarSyE(j) == 1){
 		System.out.println("el jugador: "+j.getNombre()+ " ha caido en una serpiente");
-		j.setPosicion(actualizarPos(j, serpiente.getDestino()));
+		j.setPosicion(actualizarPos(j, serpiente.getDestino(),1));
 	}
 }
 
@@ -92,10 +124,10 @@ public void jugar(){
 		
 		System.out.println("------------------------------------------------");	
 		System.out.println("jugador 1: "+p1.getNombre()+" tira dados:");
-		p1.setPosicion(actualizarPos(p1,dado.getCara()));
+		p1.setPosicion(actualizarPos(p1,dado.getCara(),0));
 		
 		System.out.println("jugador 2: "+p2.getNombre()+" tira dados:");
-		p2.setPosicion(actualizarPos(p2,dado.getCara()));
+		p2.setPosicion(actualizarPos(p2,dado.getCara(),0));
 		System.out.println("------------------------------------------------");
 		
 		dondeCayo(p1);

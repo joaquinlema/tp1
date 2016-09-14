@@ -13,6 +13,9 @@ public class Main {
 	
 	System.out.println("tablero creado");
 	System.out.println("Jugadores creados");
+	juego.agregarEscalera(4,10);
+	juego.agregarSerpiente(16,2);
+	juego.ver();
 	juego.jugar();
 	}
 }
