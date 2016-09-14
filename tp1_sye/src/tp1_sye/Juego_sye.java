@@ -1,12 +1,9 @@
 package tp1_sye;
 
-import java.util.Scanner;
-
 public class Juego_sye {
 private Jugador p1,p2;
 private Tablero tabla;
 private Dado dado;
-private Scanner scan;
 private boolean ganar;
 
 public Juego_sye(int tamañoTablero,int tamañoSer,int inicioser,int tamañoEsca,int inicioesca){
@@ -15,8 +12,8 @@ public Juego_sye(int tamañoTablero,int tamañoSer,int inicioser,int tamañoEsca,in
 	System.out.println("tablero creado");
 	dado = new Dado();
 
-	//tabla.cargarTablero(serpiente,escalera); aca generamos serpientes y escaleras
-	tabla.cargarTablero(generadorSye(tamañoSer,inicioser),generadorSye(tamañoEsca,inicioesca))
+	tabla.agregarSerpiente(generadorSerpiente(tamañoSer,inicioser));
+	tabla.agregarEscalera(generadorEscalera(tamañoEsca,inicioesca));
 	tabla.imprimir();
 
 	System.out.print("jugador 1 ");
@@ -26,7 +23,7 @@ public Juego_sye(int tamañoTablero,int tamañoSer,int inicioser,int tamañoEsca,in
 	System.out.println("Jugadores creados");
 }
 
-public static SyE[] generadorSye(int n,int j){//n tamaño arreglo, j??, podria ser j = inicio
+public static SyE[] generadorEscalera(int n,int j){//n tamaño arreglo, j??, podria ser j = inicio
 	SyE[] lista = new SyE[n];
 	for (int i = 0; i < n; i++) {
 		int ran = (int)(Math.random()*j);
@@ -35,6 +32,17 @@ public static SyE[] generadorSye(int n,int j){//n tamaño arreglo, j??, podria se
 	}
 	return lista;
 }
+
+public static SyE[] generadorSerpiente(int n,int j){//n tamaño arreglo, j??, podria ser j = inicio
+	SyE[] lista = new SyE[n];
+	for (int i = 0; i < n; i++) {
+		int ran = (int)(Math.random()*j);
+		SyE aux = new SyE(j,ran+5);
+		lista[i]=aux;
+	}
+	return lista;
+}
+
 
 public String ganador(Jugador p){
 	String ganador = p.getNombre();
@@ -58,15 +66,6 @@ public int actualizarPos(Jugador p,int destino){
 	return posicionNueva;
 }
 
-public void dondeCayo(Jugador j){
-	if (escalera.verificarSyE(j,tabla) == 1) {
-		System.out.println("el jugador: "+j.getNombre()+ " ha caido en una escalera");
-		j.setPosicion(escalera.getDestino());
-	}else if(serpiente.verificarSyE(j,tabla) == 2){
-		System.out.println("el jugador: "+j.getNombre()+ " ha caido en una serpiente");
-		j.setPosicion(serpiente.getDestino());
-	}
-}
 
 public void mostrarPosJugador(int p1pos,int p2pos){
 	System.out.println("------------------------------------------------");
@@ -90,15 +89,12 @@ public void jugar(){
 		p2.setPosicion(actualizarPos(p2,tirarDado()));
 		System.out.println("------------------------------------------------");
 		
-		dondeCayo(p1);
-		dondeCayo(p2);
+		tabla.dondeCayo(p1);
+		
+		tabla.dondeCayo(p2);
 		
 		verificaGanador();
 	}
 }
 
-public static void main(String args[]){
-	Juego_sye n = new Juego_sye();
-	n.jugar();
-}
 }

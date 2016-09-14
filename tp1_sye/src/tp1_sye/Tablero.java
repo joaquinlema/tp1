@@ -21,22 +21,41 @@ public Tablero(int n,int ser,int esc){
 	escaleras = new int[esc];
 }
 
-public int damePos(int pos){
-	if(pos<t.length){
-	return t[pos];
+public void agregarSerpiente(SyE[] serpiente){
+	int i = 0;
+	for (SyE syE : serpiente) {
+		t[syE.getInicio()] = 1;
+		serpientes[i] = syE.getInicio();
+		i++;
 	}
-	return -1;
 }
 
-public void cargarTablero(SyE[] serpiente, SyE[] escalera){
+public void agregarEscalera(SyE[] escalera){
+	int j=0;
 	for (SyE syE : escalera) {
-			t[syE.getInicio()]=1;
-			serpientes[i] = syE.getInicio;
-		}
-	for (SyE syE : serpiente) {
 		t[syE.getInicio()]=2;
-		escaleras[i] = syE.getInicio;
+		escaleras[j] = syE.getInicio();
+		j++;
 	}
+}
+
+public void dondeCayo(Jugador j){
+		if (t[j.getPosicion()] == 2) {
+			System.out.println("el jugador: "+j.getNombre()+ " ha caido en una escalera");
+			
+		}else if(t[j.getPosicion()] == 1){
+			System.out.println("el jugador: "+j.getNombre()+ " ha caido en una serpiente");
+	}
+	
+	
+	/*if (escalera.verificarSyE(j,tabla) == 2) {
+		System.out.println("el jugador: "+j.getNombre()+ " ha caido en una escalera");
+		j.setPosicion(escalera.getDestino());
+	}else if(serpiente.verificarSyE(j,tabla) == 1){
+		System.out.println("el jugador: "+j.getNombre()+ " ha caido en una serpiente");
+		j.setPosicion(serpiente.getDestino());
+	}
+	*/
 }
 
 public int tamaño(){
@@ -50,3 +69,4 @@ public void imprimir(){
 	}
 }
 }
+
