@@ -6,30 +6,19 @@ public class Juego_sye {
 private Jugador p1,p2;
 private Tablero tabla;
 private Dado dado;
-private SyE serpiente,escalera;
 private Scanner scan;
 private boolean ganar;
 
-public Juego_sye(){
+public Juego_sye(int tamañoTablero,int tamañoSer,int inicioser,int tamañoEsca,int inicioesca){
 	ganar = false;
-	scan = new Scanner(System.in);
-	System.out.println("bienvenido a Serpientes y Escaleras");
-	System.out.println("Ingrese tamaño del tablero:");
-	int tamaño = scan.nextInt();
-	tabla = new Tablero(tamaño);
+	tabla = new Tablero(tamañoTablero,tamañoSer,tamañoEsca);
 	System.out.println("tablero creado");
 	dado = new Dado();
 
-	serpiente = new SyE(12,2);
-	escalera = new SyE(4,10);
-	
-	tabla.cargarTablero(serpiente,escalera);
-	
+	//tabla.cargarTablero(serpiente,escalera); aca generamos serpientes y escaleras
+	tabla.cargarTablero(generadorSye(tamañoSer,inicioser),generadorSye(tamañoEsca,inicioesca))
 	tabla.imprimir();
-	System.out.println("");
-	System.out.println("las serpientes estan representadas con el numero 1");
-	System.out.println("las escaleras estan representadas con el numero 2");
-	System.out.println("");
+
 	System.out.print("jugador 1 ");
 	p1 = new Jugador();
 	System.out.print("jugador 2 ");
@@ -37,11 +26,11 @@ public Juego_sye(){
 	System.out.println("Jugadores creados");
 }
 
-public SyE[] generadorSye(int n,int j){
+public static SyE[] generadorSye(int n,int j){//n tamaño arreglo, j??, podria ser j = inicio
 	SyE[] lista = new SyE[n];
 	for (int i = 0; i < n; i++) {
 		int ran = (int)(Math.random()*j);
-		SyE aux = new SyE(ran,ran+5);
+		SyE aux = new SyE(j,ran+5);
 		lista[i]=aux;
 	}
 	return lista;
