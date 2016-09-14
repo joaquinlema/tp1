@@ -1,7 +1,6 @@
 package tp1_sye;
 
 import java.util.Scanner;
-
 public class Jugador {
 
 	private int posicion;

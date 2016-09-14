@@ -3,56 +3,36 @@ package tp1_sye;
 public class Juego_sye {
 private Jugador p1,p2;
 private Tablero tabla;
-private Dado dado;
+private SyE serpiente,escalera;
 private boolean ganar;
 
-public Juego_sye(int tamañoTablero,int tamañoSer,int inicioser,int tamañoEsca,int inicioesca){
+public Juego_sye(int tamañoTablero){
 	ganar = false;
-	tabla = new Tablero(tamañoTablero,tamañoSer,tamañoEsca);
-	System.out.println("tablero creado");
-	dado = new Dado();
-
-	tabla.agregarSerpiente(generadorSerpiente(tamañoSer,inicioser));
-	tabla.agregarEscalera(generadorEscalera(tamañoEsca,inicioesca));
+	
+	tabla = new Tablero(tamañoTablero);
+	
+	serpiente = new SyE(12,2);
+	escalera = new SyE(1,10);
+	tabla.cargarTablero(serpiente,escalera);
+	
 	tabla.imprimir();
-
-	System.out.print("jugador 1 ");
+	
 	p1 = new Jugador();
-	System.out.print("jugador 2 ");
 	p2 = new Jugador();
-	System.out.println("Jugadores creados");
+	
 }
 
-public SyE[] generadorEscalera(int n,int j){//n tamaño arreglo, j??, podria ser j = inicio
-	SyE[] lista = new SyE[n];
-	for (int i = 0; i < n; i++) {
-		int ran = (int)(Math.random()*tabla.tamaño());
-		if (ran>j) {
-			SyE aux = new SyE(j,ran);
-			lista[i]=aux;
-		}else{
-		SyE aux = new SyE(j,j+5);
-		lista[i]=aux;
-		}
-	}
-	return lista;
+public void mostrarPosJugador(int p1pos,int p2pos){
+	System.out.println("------------------------------------------------");
+	System.out.println("Jugador 1 se encuentra en la posicion: "+p1pos);
+	System.out.println("Jugador 2 se encuentra en la posicion: "+p2pos);
 }
 
-public SyE[] generadorSerpiente(int n,int j){//n tamaño arreglo, j??, podria ser j = inicio
-	SyE[] lista = new SyE[n];
-	for (int i = 0; i < n; i++) {
-		int ran = (int)(Math.random()*tabla.tamaño());
-		if (ran<j) {
-			SyE aux = new SyE(j,ran);
-			lista[i] = aux;
-		}else{
-		SyE aux = new SyE(j,j-5);
-		lista[i]=aux;
-		}
-	}
-	return lista;
+public int tirarDados(){
+	int dados =(int)(1 + (Math.random()) *5);
+	System.out.println("obtuvo: "+dados);
+	return dados;
 }
-
 
 public String ganador(Jugador p){
 	String ganador = p.getNombre();
@@ -70,21 +50,43 @@ public boolean verificaGanador(){
 	return ganar;
 }
 
+public boolean esEscalera(Jugador j){
+	if (tabla.damePos(j.getPosicion()) == 2) {
+		return true;
+	}
+	return false;
+}
+
+public boolean esSerpiente(Jugador j){
+	if (tabla.damePos(j.getPosicion()) == 1) {
+		return true;
+	}
+	return false;
+}
+
+public int verificarSyE(Jugador j1){
+	if (esEscalera(j1)) {
+		return 1;
+	}else if (esSerpiente(j1)) {
+		return 2;
+	}
+	return 0;
+}
 
 public int actualizarPos(Jugador p,int destino){
 	int posicionNueva = p.getPosicion() + destino;
 	return posicionNueva;
 }
 
-
-public void mostrarPosJugador(int p1pos,int p2pos){
-	System.out.println("------------------------------------------------");
-	System.out.println("Jugador 1 se encuentra en la posicion: "+p1pos);
-	System.out.println("Jugador 2 se encuentra en la posicion: "+p2pos);
+public void dondeCayo(Jugador j){
+	if (verificarSyE(j) == 1) {
+		System.out.println("el jugador: "+j.getNombre()+ " ha caido en una escalera");
+		j.setPosicion(actualizarPos(j, escalera.getDestino()));
+	}else if(verificarSyE(j) == 2){
+		System.out.println("el jugador: "+j.getNombre()+ " ha caido en una serpiente");
+		j.setPosicion(actualizarPos(j, serpiente.getDestino()));
+	}
 }
- public int tirarDado(){
-	 return dado.getCara();
- }
 
 public void jugar(){
 	while(ganar == false){
@@ -93,14 +95,14 @@ public void jugar(){
 		
 		System.out.println("------------------------------------------------");	
 		System.out.println("jugador 1: "+p1.getNombre()+" tira dados:");
-		p1.setPosicion(actualizarPos(p1,tirarDado()));
+		p1.setPosicion(actualizarPos(p1,tirarDados()));
 		
 		System.out.println("jugador 2: "+p2.getNombre()+" tira dados:");
-		p2.setPosicion(actualizarPos(p2,tirarDado()));
+		p2.setPosicion(actualizarPos(p2,tirarDados()));
 		System.out.println("------------------------------------------------");
 		
-		tabla.dondeCayo(p1);
-		tabla.dondeCayo(p2);
+		dondeCayo(p1);
+		dondeCayo(p2);
 		
 		verificaGanador();
 	}
