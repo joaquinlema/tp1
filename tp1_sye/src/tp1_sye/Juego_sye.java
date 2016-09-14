@@ -23,22 +23,32 @@ public Juego_sye(int tamañoTablero,int tamañoSer,int inicioser,int tamañoEsca,in
 	System.out.println("Jugadores creados");
 }
 
-public static SyE[] generadorEscalera(int n,int j){//n tamaño arreglo, j??, podria ser j = inicio
+public SyE[] generadorEscalera(int n,int j){//n tamaño arreglo, j??, podria ser j = inicio
 	SyE[] lista = new SyE[n];
 	for (int i = 0; i < n; i++) {
-		int ran = (int)(Math.random()*j);
-		SyE aux = new SyE(j,ran+5);
+		int ran = (int)(Math.random()*tabla.tamaño());
+		if (ran>j) {
+			SyE aux = new SyE(j,ran);
+			lista[i]=aux;
+		}else{
+		SyE aux = new SyE(j,j+5);
 		lista[i]=aux;
+		}
 	}
 	return lista;
 }
 
-public static SyE[] generadorSerpiente(int n,int j){//n tamaño arreglo, j??, podria ser j = inicio
+public SyE[] generadorSerpiente(int n,int j){//n tamaño arreglo, j??, podria ser j = inicio
 	SyE[] lista = new SyE[n];
 	for (int i = 0; i < n; i++) {
-		int ran = (int)(Math.random()*j);
-		SyE aux = new SyE(j,ran+5);
+		int ran = (int)(Math.random()*tabla.tamaño());
+		if (ran<j) {
+			SyE aux = new SyE(j,ran);
+			lista[i] = aux;
+		}else{
+		SyE aux = new SyE(j,j-5);
 		lista[i]=aux;
+		}
 	}
 	return lista;
 }
@@ -90,7 +100,6 @@ public void jugar(){
 		System.out.println("------------------------------------------------");
 		
 		tabla.dondeCayo(p1);
-		
 		tabla.dondeCayo(p2);
 		
 		verificaGanador();
