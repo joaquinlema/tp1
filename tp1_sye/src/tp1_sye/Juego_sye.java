@@ -92,7 +92,7 @@ public int verificarSyE(Jugador j1){
 	return 0;
 }
 
-	public int actualizarPos(Jugador p,int destino,int valor){
+public int actualizarPos(Jugador p,int destino,int valor){
 		int posicionNueva;
 		if(valor == 2){//si es escalera
 			posicionNueva = destino;
