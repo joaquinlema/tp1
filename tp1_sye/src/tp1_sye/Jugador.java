@@ -1,16 +1,16 @@
 package tp1_sye;
 
-import java.util.Scanner;
 public class Jugador {
 
 	private int posicion;
 	private String nombre;
-	private Scanner nom;
-	
+
 public Jugador(){
-	nom = new Scanner(System.in);
-	System.out.println("Dame tu nombre: ");
-	nombre = nom.nextLine();
+	posicion = 0;
+}
+
+public Jugador(String nombre){
+	this.nombre=nombre;
 	posicion = 0;
 }
 
@@ -24,6 +24,9 @@ public void setPosicion(int posicion) {
 
 public String getNombre(){
 	return nombre;
+}
+public void setNombre(String nombre){
+	 this.nombre=nombre;
 }
 
 }
